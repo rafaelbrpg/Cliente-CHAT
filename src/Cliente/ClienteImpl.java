@@ -16,7 +16,7 @@ public class ClienteImpl extends UnicastRemoteObject implements ClienteInterface
    
     @Override
     public void ReceberMensagemServidor(String apelidoOrigem, String mensagem) throws RemoteException {
-        System.out.println(apelidoOrigem + "Disse...:"+mensagem);
+        System.out.println(apelidoOrigem + " Disse...:"+mensagem);
     }
 
     @Override
