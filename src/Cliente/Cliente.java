@@ -29,12 +29,12 @@ public class Cliente {
     private HashMap<String, Contato> contatos;
     private DefaultTableModel tabelaclientes;
 
-    public Cliente(String endereco, String portaServidor, String apelido, String nome, String portaCliente) throws NoSuchObjectException, RemoteException {
+    public Cliente(String endereco, String portaServidor,String enderecoCliente, String apelido, String nome, String portaCliente) throws NoSuchObjectException, RemoteException {
 
         entradaTeclado = new DataInputStream(System.in);
         clienteInterface = new ClienteImpl();
-        disponibilizarServicos(portaCliente, apelido);
-        conectar(endereco, portaServidor, apelido, nome, portaCliente);
+        disponibilizarServicos(enderecoCliente, portaCliente, apelido);
+        conectar(endereco, portaServidor,enderecoCliente, apelido, nome, portaCliente);
         
         contatos = new HashMap<String, Contato>();
         tabelaclientes = new DefaultTableModel();
@@ -42,7 +42,7 @@ public class Cliente {
         tabelaclientes.addColumn("Porta");
     }
 
-    private void disponibilizarServicos(String portaCliente, String apelido) {
+    private void disponibilizarServicos(String enderecoCliente, String portaCliente, String apelido) {
         try {
             Registry impl = new RegistryImpl(Integer.valueOf(portaCliente));
         } catch (RemoteException ex) {
@@ -50,6 +50,7 @@ public class Cliente {
         }
 
         try {
+            //Naming.rebind("rmi://"+enderecoCliente+":" + String.valueOf(portaCliente) + "/" + apelido, clienteInterface);
             Naming.rebind("rmi://localhost:" + String.valueOf(portaCliente) + "/" + apelido, clienteInterface);
         } catch (RemoteException ex) {
             System.out.println("Falha ao disponibilizar Servicos!");
@@ -58,14 +59,14 @@ public class Cliente {
         }
     }
 
-    private void conectar(String endereco, String portaServ, String apelido, String nome, String portaCliente) {
+    private void conectar(String endereco, String portaServ, String enderecoCliente, String apelido, String nome, String portaCliente) {
         try {
             enderecoServidor = endereco;
             portaServidor = portaServ;
             apelidoOrigem = apelido;
 
             servidorInterface = (ServidorInterface) Naming.lookup("rmi://" + enderecoServidor + ":" + portaServidor + "/servidorEco");
-            servidorInterface.Conectar(apelidoOrigem, nome, endereco, portaCliente);
+            servidorInterface.Conectar(apelidoOrigem, nome, enderecoCliente, portaCliente);
             
         } catch (NotBoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,6 +81,19 @@ public class Cliente {
         try {
             servidorInterface = (ServidorInterface) Naming.lookup("rmi://" + enderecoServidor + ":" + portaServidor + "/servidorEco");
             servidorInterface.ReceberMensagemCliente(apelidoOrigem, apelidoDestino, mensagem);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void desconectar(String enderecoCliente, String apelido, String portaCliente){
+        try {
+            servidorInterface = (ServidorInterface) Naming.lookup("rmi://" + enderecoServidor + ":" + portaServidor + "/servidorEco");
+            servidorInterface.Desconectar(apelido, enderecoCliente, portaCliente);
         } catch (NotBoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
