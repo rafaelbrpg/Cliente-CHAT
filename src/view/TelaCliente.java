@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Cliente.Cliente;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,12 +22,34 @@ public class TelaCliente extends javax.swing.JFrame {
     String apelido;
     String endereco;
     String portaCliente;
+    boolean conectado;
 
     public TelaCliente() throws SocketException {
         initComponents();
         btnDesconectar.setVisible(false);
     }
-
+    
+    public void isConected(boolean rsp){
+        if (rsp){
+            txtEndereço.setEditable(false);
+            txtPorta.setEditable(false);
+            txtApelido.setEditable(false);
+            txtNome.setEditable(false);
+            txtPortaCliente.setEditable(false);
+            conectado = true;
+        }else{
+            txtEndereço.setEditable(true);
+            txtPorta.setEditable(true);
+            txtApelido.setEditable(true);
+            txtNome.setEditable(true);
+            txtPortaCliente.setEditable(true);
+            conectado = false;
+        }
+    }
+    
+    public boolean isOnline(){
+      return conectado;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -378,19 +401,20 @@ public class TelaCliente extends javax.swing.JFrame {
         portaCliente = txtPortaCliente.getText();
 
         try {
-            cliente = new Cliente(ipServidor, portaServidor, endereco, apelido, nome, portaCliente);
+            cliente = new Cliente(this,ipServidor, portaServidor, endereco, apelido, nome, portaCliente);
+            btnConectar.setVisible(false);
+            btnDesconectar.setVisible(true);
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Servidor não encontrado");
         }
         /* cliente.conectar();
          tbClientes.setModel(cliente.getTabelaclientes());
          tbChat.setModel(cliente.getTabelachat());*/
-         btnConectar.setVisible(false);
-         btnDesconectar.setVisible(true);
     }//GEN-LAST:event_btnConectarActionPerformed
 
     private void cbBroadcastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBroadcastActionPerformed
         if (cbBroadcast.isSelected()) {
-            txtDestino.setText("999.999.999.999");
+            txtDestino.setText("TODOS");
 
         } else {
             txtDestino.setText("");
@@ -408,11 +432,13 @@ public class TelaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_tbChatMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        cliente.desconectar(endereco, apelido, portaCliente);
+        
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        cliente.desconectar(endereco, apelido, portaCliente);
+        if (isOnline()){
+            cliente.desconectar(endereco, apelido, portaCliente);
+        }
     }//GEN-LAST:event_formWindowClosing
 
     /**
