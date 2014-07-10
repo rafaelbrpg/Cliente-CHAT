@@ -32,6 +32,7 @@ public class Cliente {
     private List<String> mensagens;
     private HashMap<String, Contato> contatos;
     private DefaultTableModel tabelaclientes;
+    private DefaultTableModel tabelaChat;
     private TelaCliente telaCliente;
 
     public Cliente(TelaCliente tela, String endereco, String portaServidor, String enderecoCliente, String apelido, String nome, String portaCliente) throws NoSuchObjectException, RemoteException {
@@ -44,6 +45,8 @@ public class Cliente {
         tabelaclientes = new DefaultTableModel();
         tabelaclientes.addColumn("Apelido");
         tabelaclientes.addColumn("Nome");
+        tabelaChat = new DefaultTableModel();
+        tabelaChat.addColumn("Mensagem");
         
         disponibilizarServicos(enderecoCliente, portaCliente, apelido);
         int rsp = conectar(endereco, portaServidor, enderecoCliente, apelido, nome, portaCliente);
@@ -112,6 +115,8 @@ public class Cliente {
             servidorInterface = (ServidorInterface) Naming.lookup("rmi://" + enderecoServidor + ":" + portaServidor + "/servidorEco");
             servidorInterface.Desconectar(apelido, enderecoCliente, portaCliente);
             telaCliente.isConected(false);
+            tabelaclientes.setRowCount(0);
+            tabelaChat.setRowCount(0);
             UnicastRemoteObject.unexportObject(clienteInterface, true);
 
         } catch (NotBoundException ex) {
@@ -152,5 +157,14 @@ public class Cliente {
     
     public DefaultTableModel getTabelaClientes() {
         return tabelaclientes;
+    }
+    
+    public DefaultTableModel getTabelachat() {
+        return tabelaChat;
+    }
+    
+    public void atualizaTabelaChat(String msg) {
+        String[] vetor = {String.valueOf(msg)};
+        tabelaChat.addRow(vetor);
     }
 }
