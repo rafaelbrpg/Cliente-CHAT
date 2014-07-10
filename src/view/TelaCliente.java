@@ -404,13 +404,13 @@ public class TelaCliente extends javax.swing.JFrame {
             endereco = "192.0.0.0";
             apelido = txtApelido.getText();
             portaCliente = txtPortaCliente.getText();
-            
-            
+                  
             cliente = new Cliente(this,ipServidor, portaServidor, endereco, apelido, nome, portaCliente);
             btnConectar.setVisible(false);
             btnDesconectar.setVisible(true);
             tbClientes.setModel(cliente.getTabelaClientes());
             tbChat.setModel(cliente.getTabelachat());
+
             /*} catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Servidor não encontrado");
             }*/

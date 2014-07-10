@@ -101,6 +101,7 @@ public class Cliente {
         try {
             servidorInterface = (ServidorInterface) Naming.lookup("rmi://" + enderecoServidor + ":" + portaServidor + "/servidorEco");
             servidorInterface.ReceberMensagemCliente(apelidoOrigem, apelidoDestino, mensagem);
+            atualizaTabelaChat("> Você disse para :"+apelidoDestino+"  "+mensagem);
         } catch (NotBoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
