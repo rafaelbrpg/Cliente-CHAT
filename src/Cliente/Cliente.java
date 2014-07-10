@@ -141,6 +141,15 @@ public class Cliente {
         atualizaTabelaContatos();
     }
     
+    public void desconectaCliente(String apelido, String nome) {
+
+        Contato contato = new Contato(apelido,nome);
+        Contato c = contatos.remove(contato.getHash());
+        System.out.println(c + " Desconectou");
+        //enviarListaClientes();
+        atualizaTabelaContatos();
+    }
+    
     public DefaultTableModel getTabelaClientes() {
         return tabelaclientes;
     }

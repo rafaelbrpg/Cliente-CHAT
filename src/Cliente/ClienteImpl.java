@@ -27,6 +27,6 @@ public class ClienteImpl extends UnicastRemoteObject implements ClienteInterface
 
     @Override
     public void DesconexaoCliente(String apelido, String nome) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        cliente.desconectaCliente(apelido, nome);
     }
 }
