@@ -3,8 +3,9 @@ package Cliente;
 import Interface.ClienteInterface;
 import Interface.ServidorInterface;
 import java.io.DataInputStream;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
-import java.rmi.ConnectException;
+import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
@@ -37,14 +38,17 @@ public class Cliente {
 
         telaCliente = tela;
         entradaTeclado = new DataInputStream(System.in);
-        clienteInterface = new ClienteImpl();
-        disponibilizarServicos(enderecoCliente, portaCliente, apelido);
-        int rsp = conectar(endereco, portaServidor, enderecoCliente, apelido, nome, portaCliente);
-
+        clienteInterface = new ClienteImpl(this);
+        
         contatos = new HashMap<String, Contato>();
         tabelaclientes = new DefaultTableModel();
         tabelaclientes.addColumn("Apelido");
-        tabelaclientes.addColumn("Porta");
+        tabelaclientes.addColumn("Nome");
+        
+        disponibilizarServicos(enderecoCliente, portaCliente, apelido);
+        int rsp = conectar(endereco, portaServidor, enderecoCliente, apelido, nome, portaCliente);
+
+        
         if (rsp == 0) {
             telaCliente.isConected(true);
         } else {
@@ -117,5 +121,27 @@ public class Cliente {
         } catch (RemoteException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void atualizaTabelaContatos() {
+        tabelaclientes.setRowCount(0);
+
+        for (Contato contato : contatos.values()) {
+            String[] vetor = {contato.getApelido(), contato.getNome()};
+            tabelaclientes.addRow(vetor);
+        }
+    }
+    
+    public void atualizarContatos(String apelido, String nome) {
+        //contatos = new HashMap<>();
+        
+        Contato novoCliente = new Contato(apelido, nome);
+        contatos.put(novoCliente.getHash(), novoCliente);
+        //enviarListaClientes();
+        atualizaTabelaContatos();
+    }
+    
+    public DefaultTableModel getTabelaClientes() {
+        return tabelaclientes;
     }
 }

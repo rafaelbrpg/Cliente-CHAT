@@ -3,15 +3,13 @@ package Cliente;
 import Interface.ClienteInterface;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ClienteImpl extends UnicastRemoteObject implements ClienteInterface{
     
-  
-    public ClienteImpl() throws RemoteException {
+    Cliente cliente;
+    public ClienteImpl(Cliente cli) throws RemoteException {
         super();
-         
+        cliente = cli;
     }
    
     @Override
@@ -21,7 +19,10 @@ public class ClienteImpl extends UnicastRemoteObject implements ClienteInterface
 
     @Override
     public void ReceberNovaConexao(String apelido, String nome) throws RemoteException {
-            System.out.println("Novo Cliente!!!");
+        
+        System.out.println("* "+apelido+" Está conectado.");
+       cliente.atualizarContatos(apelido, nome);
+       //cliente.atualizaTabelaContatos();
     }
 
     @Override

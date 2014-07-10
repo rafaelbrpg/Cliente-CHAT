@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Cliente.Cliente;
+import java.rmi.RemoteException;
 import javax.swing.JOptionPane;
 
 /**
@@ -393,23 +394,28 @@ public class TelaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
-        String ipServidor = txtEndereço.getText();
-        String portaServidor = txtPorta.getText();
-        String nome = txtNome.getText();
-        endereco = "192.0.0.0";
-        apelido = txtApelido.getText();
-        portaCliente = txtPortaCliente.getText();
-
         try {
+            String ipServidor = txtEndereço.getText();
+            String portaServidor = txtPorta.getText();
+            String nome = txtNome.getText();
+            endereco = "192.0.0.0";
+            apelido = txtApelido.getText();
+            portaCliente = txtPortaCliente.getText();
+            
+            
             cliente = new Cliente(this,ipServidor, portaServidor, endereco, apelido, nome, portaCliente);
             btnConectar.setVisible(false);
             btnDesconectar.setVisible(true);
-        } catch (Exception e) {
+            tbClientes.setModel(cliente.getTabelaClientes());
+            /*} catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Servidor não encontrado");
+            }
+            
+            
+            /*tbChat.setModel(cliente.getTabelachat());*/
+        } catch (RemoteException ex) {
+            Logger.getLogger(TelaCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /* cliente.conectar();
-         tbClientes.setModel(cliente.getTabelaclientes());
-         tbChat.setModel(cliente.getTabelachat());*/
     }//GEN-LAST:event_btnConectarActionPerformed
 
     private void cbBroadcastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBroadcastActionPerformed
