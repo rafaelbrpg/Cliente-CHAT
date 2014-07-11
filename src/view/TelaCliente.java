@@ -384,6 +384,7 @@ public class TelaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEndereçoActionPerformed
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+        if(!txtDestino.getText().equals("")){
         String msg = "";
         msg = txtMsg.getText().trim();
         String apelidoDestino = txtDestino.getText().trim();
@@ -394,6 +395,9 @@ public class TelaCliente extends javax.swing.JFrame {
             System.out.println("Desgraça");
         }
         txtMsg.setText("");
+        }else{
+            JOptionPane.showMessageDialog(this, "O campo destino não pode ser vazio!");
+        }
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
@@ -431,6 +435,7 @@ public class TelaCliente extends javax.swing.JFrame {
     private void tbClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbClientesMouseClicked
         int linha_selecionada = tbClientes.getSelectedRow();
         txtDestino.setText(tbClientes.getValueAt(linha_selecionada, 0).toString());
+        cbBroadcast.setSelected(false);
     }//GEN-LAST:event_tbClientesMouseClicked
 
     private void tbChatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbChatMouseClicked
