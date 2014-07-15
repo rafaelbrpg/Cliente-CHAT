@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import sun.rmi.registry.RegistryImpl;
-import view.TelaCliente;
 
 public class Cliente {
 
@@ -68,8 +67,8 @@ public class Cliente {
         }
 
         try {
-            //Naming.rebind("rmi://"+enderecoCliente+":" + String.valueOf(portaCliente) + "/" + apelido, clienteInterface);
-            Naming.rebind("rmi://localhost:" + String.valueOf(portaCliente) + "/" + apelido, clienteInterface);
+            Naming.rebind("rmi://"+enderecoCliente+":" + String.valueOf(portaCliente) + "/" + apelido, clienteInterface);
+            //Naming.rebind("rmi://localhost:" + String.valueOf(portaCliente) + "/" + apelido, clienteInterface);
         } catch (RemoteException ex) {
             System.out.println("Falha ao disponibilizar Servicos!");
         } catch (Exception e) {
@@ -86,7 +85,7 @@ public class Cliente {
 
             servidorInterface = (ServidorInterface) Naming.lookup("rmi://" + enderecoServidor + ":" + portaServidor + "/servidorEco");
             rsp = servidorInterface.Conectar(apelidoOrigem, nome, enderecoCliente, portaCliente);
-
+            telaCliente.txtStatus.setText("Você está ONLINE!");
         } catch (NotBoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -118,6 +117,7 @@ public class Cliente {
             telaCliente.isConected(false);
             tabelaclientes.setRowCount(0);
             tabelaChat.setRowCount(0);
+            telaCliente.txtStatus.setText("Você está OFFLINE!");
             UnicastRemoteObject.unexportObject(clienteInterface, true);
 
         } catch (NotBoundException ex) {

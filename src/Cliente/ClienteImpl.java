@@ -14,14 +14,12 @@ public class ClienteImpl extends UnicastRemoteObject implements ClienteInterface
    
     @Override
     public void ReceberMensagemServidor(String apelidoOrigem, String mensagem) throws RemoteException {
-        System.out.println(apelidoOrigem + "diz:  "+mensagem);
         cliente.atualizaTabelaChat("> "+apelidoOrigem + "  diz : "+mensagem);
     }
 
     @Override
     public void ReceberNovaConexao(String apelido, String nome) throws RemoteException {
-        
-        System.out.println("* "+apelido+" Está conectado.");
+       System.out.println("* "+apelido+" Está conectado.");
        cliente.atualizarContatos(apelido, nome);
        //cliente.atualizaTabelaContatos();
     }

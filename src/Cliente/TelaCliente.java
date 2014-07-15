@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package Cliente;
 
+import Cliente.Cliente;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Cliente.Cliente;
-import java.rmi.RemoteException;
 import javax.swing.JOptionPane;
 
 /**
@@ -89,6 +90,7 @@ public class TelaCliente extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtEndereço = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        txtStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cliente");
@@ -284,6 +286,12 @@ public class TelaCliente extends javax.swing.JFrame {
 
         jpDadosServidor.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        txtPorta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPortaKeyTyped(evt);
+            }
+        });
+
         jLabel6.setText("Porta");
 
         jLabel1.setText("IP");
@@ -344,7 +352,11 @@ public class TelaCliente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -364,6 +376,8 @@ public class TelaCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -405,7 +419,11 @@ public class TelaCliente extends javax.swing.JFrame {
             String ipServidor = txtEndereço.getText();
             String portaServidor = txtPorta.getText();
             String nome = txtNome.getText();
-            endereco = "192.0.0.0";
+            try {
+                endereco = InetAddress.getLocalHost().getHostAddress().toString();
+            } catch (UnknownHostException ex) {
+                System.out.println("Falha ao recuperar endereço da máquina!");
+            }
             apelido = txtApelido.getText();
             portaCliente = txtPortaCliente.getText();
                   
@@ -451,6 +469,10 @@ public class TelaCliente extends javax.swing.JFrame {
             cliente.desconectar(endereco, apelido, portaCliente);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void txtPortaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPortaKeyTyped
+        
+    }//GEN-LAST:event_txtPortaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -501,5 +523,6 @@ public class TelaCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPorta;
     private javax.swing.JTextField txtPortaCliente;
+    public javax.swing.JLabel txtStatus;
     // End of variables declaration//GEN-END:variables
 }
