@@ -37,7 +37,7 @@ public class Cliente {
     public Cliente(TelaCliente tela, String endereco, String portaServidor, String enderecoCliente, String apelido, String nome, String portaCliente) throws NoSuchObjectException, RemoteException {
 
         telaCliente = tela;
-        entradaTeclado = new DataInputStream(System.in);
+
         clienteInterface = new ClienteImpl(this);
         
         contatos = new HashMap<String, Contato>();
@@ -63,7 +63,7 @@ public class Cliente {
         try {
             Registry impl = new RegistryImpl(Integer.valueOf(portaCliente));
         } catch (RemoteException ex) {
-            System.out.println("Servidor de registro nao foi carregado");
+            //System.out.println("Servidor de registro nao foi carregado");
         }
 
         try {
@@ -151,8 +151,6 @@ public class Cliente {
 
         Contato contato = new Contato(apelido,nome);
         Contato c = contatos.remove(contato.getHash());
-        System.out.println(c + " Desconectou");
-        //enviarListaClientes();
         atualizaTabelaContatos();
     }
     

@@ -5,7 +5,7 @@
  */
 package Cliente;
 
-import Cliente.Cliente;
+
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -39,6 +39,8 @@ public class TelaCliente extends javax.swing.JFrame {
             txtNome.setEditable(false);
             txtPortaCliente.setEditable(false);
             conectado = true;
+            btnEnviar.setEnabled(true);
+            txtMsg.setEnabled(true);
         }else{
             txtEndereço.setEditable(true);
             txtPorta.setEditable(true);
@@ -46,6 +48,9 @@ public class TelaCliente extends javax.swing.JFrame {
             txtNome.setEditable(true);
             txtPortaCliente.setEditable(true);
             conectado = false;
+            btnEnviar.setEnabled(false);
+            txtMsg.setText("");
+            txtMsg.setEnabled(false);
         }
     }
     
@@ -166,7 +171,13 @@ public class TelaCliente extends javax.swing.JFrame {
 
         jLabel8.setText("Apelido");
 
+        txtApelido.setDocument(new MaskFieldUtil(MaskFieldUtil.ONLY_LETTERS_NUMBERS_MASK, 10, true));
+
         jLabel9.setText("Sua Porta");
+
+        txtPortaCliente.setDocument(new MaskFieldUtil(MaskFieldUtil.ONLY_NUMBERS_MASK, 5, true));
+
+        txtNome.setDocument(new MaskFieldUtil(MaskFieldUtil.ONLY_LETTERS_MASK, 32, true));
 
         jLabel10.setText("Nome");
 
@@ -223,7 +234,10 @@ public class TelaCliente extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        txtMsg.setEnabled(false);
+
         btnEnviar.setText("Enviar");
+        btnEnviar.setEnabled(false);
         btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarActionPerformed(evt);
@@ -286,6 +300,7 @@ public class TelaCliente extends javax.swing.JFrame {
 
         jpDadosServidor.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        txtPorta.setDocument(new MaskFieldUtil(MaskFieldUtil.ONLY_NUMBERS_MASK, 5, true));
         txtPorta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPortaKeyTyped(evt);
@@ -296,6 +311,7 @@ public class TelaCliente extends javax.swing.JFrame {
 
         jLabel1.setText("IP");
 
+        //txtEndereço.setDocument(new MaskFieldUtil(MaskFieldUtil.ONLY_NUMBERS_MASK, 6, true));
         txtEndereço.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEndereçoActionPerformed(evt);

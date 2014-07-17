@@ -10,12 +10,6 @@ import java.rmi.RemoteException;
 
 public interface ServidorInterface extends Remote {
 
-    public void somar(float a, float b) throws java.rmi.RemoteException;
-    // Receber mensagem do cliente
-    // Se apelidoDestino == "TODOS", a mensagem deverá ser enviada a todos os clientes conectados, caso contrário,
-    // somente ao cliente informado
-    // Caso o retorno (int) seja igual a 0, significa que a mensagem foi enviada
-
     public int ReceberMensagemCliente(String apelidoOrigem, String apelidoDestino, String mensagem) throws RemoteException;
 
     // Conexão de um novo cliente

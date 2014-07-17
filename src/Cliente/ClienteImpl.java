@@ -19,9 +19,7 @@ public class ClienteImpl extends UnicastRemoteObject implements ClienteInterface
 
     @Override
     public void ReceberNovaConexao(String apelido, String nome) throws RemoteException {
-       System.out.println("* "+apelido+" Está conectado.");
        cliente.atualizarContatos(apelido, nome);
-       //cliente.atualizaTabelaContatos();
     }
 
     @Override
